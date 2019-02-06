@@ -5,7 +5,11 @@ import {BrowserRouter as  Router, Link, Route, Redirect} from 'react-router-dom'
 import Spinner from '../components/UI/Spinner'
 import { MDBIcon } from "mdbreact";
 import Modal from '../components/UI/Modal'
-import Character from './Charac'
+import Character from './Charac';
+import Planet from './Planet'
+import Starship from './Starship'
+import Chart from 'chart.js';
+import pic from '../james-pond-80872-unsplash.jpg'
 
 
 class FullFilm extends Component {
@@ -18,7 +22,10 @@ class FullFilm extends Component {
       seen: false,
       notif_liked: false,
       notif_seen:false,
-      characters:[]
+      characters:[],
+      planets: [],
+      starships: [],
+      display: 'characs'
      }
    }
 
@@ -33,6 +40,8 @@ class FullFilm extends Component {
           .then(response => {
               this.setState({film: response.data, filmLoaded: true})
                this.getCharacters();
+               this.getPlanets();
+               this.getStarships();
               console.log(response)
 
           });
@@ -68,6 +77,40 @@ class FullFilm extends Component {
      })
     }
 
+    getPlanets = () => {
+      var planetsArray = [];
+      this.state.film.planets.map((p, i) => {
+        axios.get(p)
+        .then(response => {
+          planetsArray.push(response.data)
+         this.setState({ planets: planetsArray})
+      })
+     })
+    }
+
+    getStarships = () => {
+      var starshipsArray = [];
+      this.state.film.starships.map((s, i) => {
+        axios.get(s)
+        .then(response => {
+          starshipsArray.push(response.data)
+         this.setState({ starships: starshipsArray})
+      })
+     })
+    }
+
+      displayCharacs = () => {
+        this.setState({ display: 'characs'})
+      }
+
+      displayPlanets = () => {
+        this.setState({ display: 'planets'})
+      }
+
+
+      displayStarships = () => {
+        this.setState({ display: 'starships'})
+      }
 
 
      stopNotif =()=> {
@@ -77,8 +120,6 @@ class FullFilm extends Component {
 
     render () {
 
-
-
       let characs = this.state.characters.map((c) =>{
         return <Character
         name = {c.name}
@@ -86,6 +127,21 @@ class FullFilm extends Component {
         eye_color= {c.eye_color}
         height= {c.height}
         mass= {c.mass}
+        />
+      })
+
+      let planets = this.state.planets.map((p) =>{
+        return <Planet
+        terrain = {p.terrain}
+        name= {p.name}
+        />
+      })
+
+      let starships = this.state.starships.map((s) =>{
+        return <Starship
+        model = {s.model}
+        name= {s.name}
+        class= {s.starship_class}
         />
       })
 
@@ -117,12 +173,44 @@ class FullFilm extends Component {
     </div>
       }
 
+        let toDisplay = characs
+        let tabs = ''
+    if (this.state.display === "characs") {
+      toDisplay = characs
+      tabs= <div className= "tabs">
+        <span className="tab active" onClick={this.displayCharacs}> Characters </span>
+        <span className="tab" onClick={this.displayPlanets}> Planets </span>
+        <span className="tab " onClick={this.displayStarships}> Starships </span>
+      </div>
+     } else if (this.state.display === "planets") {
+      toDisplay = planets
+      tabs = <div className= "tabs">
+        <span className="tab " onClick={this.displayCharacs}> Characters </span>
+        <span className="tab active" onClick={this.displayPlanets}> Planets </span>
+        <span className="tab " onClick={this.displayStarships}> Starships </span>
+      </div>
+     } else if (this.state.display === "starships") {
+      toDisplay = starships
+      tabs = <div className= "tabs">
+        <span className="tab " onClick={this.displayCharacs}> Characters </span>
+        <span className="tab " onClick={this.displayPlanets}> Planets </span>
+        <span className="tab active" onClick={this.displayStarships}> Starships </span>
+        </div>
+     }
+
+
+
+
+
  return(
  <div>
+  <Link to= {"/films/"} className= "Nav"> <MDBIcon icon="arrow-left"/> ALL FILMS</Link>
    <div className="FullFilm">
-      <h1>  FILM DETAILS </h1>
+      <img  src={pic} className="banner" alt="fireSpot"/>
     {film}
     </div>
+
+    {tabs}
 
     <Modal
           show={this.state.notif_liked}
@@ -139,9 +227,9 @@ class FullFilm extends Component {
     </Modal>
 
     <div className="Characters">
-       <h3> Characters </h3>
-       {characs}
+       {toDisplay}
      </div>
+
     </div>
   )
 

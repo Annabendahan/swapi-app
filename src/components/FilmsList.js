@@ -80,13 +80,14 @@ if (this.state.listLoaded === true) {
 }
 
   return(
+    <div>
+    <img  src={pic} className="banner" alt="fireSpot"/>
         <div className="movies">
-
           <h1> All Star-Wars movies </h1>
-          <img  src={pic}  alt="fireSpot"/>
           <input className="search" name="search" type='text' placeholder= 'Title, Director name...'
             onChange={this.handleInput} value={this.state.search} />
           {FilmsList}
+        </div>
         </div>
 
     )

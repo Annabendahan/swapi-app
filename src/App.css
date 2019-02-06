@@ -32,7 +32,7 @@ h1{
 
 .Film-i{
 font-size: 30px;
-color: red;
+color: brown;
 }
 
 .Film:hover{
@@ -134,6 +134,9 @@ margin: 10px;
 text-align: left;
 background: white;
 padding: 10px;
+width: 150px;
+height: 150px;
+border-radius: 10px;
 }
 
 .charac p{
@@ -142,9 +145,55 @@ padding: 10px;
 
 .Characters{
   background: white;
-  margin: 10px;
+  margin: auto;
+  width: 90%;
 }
 
+.banner{
+ width: 200px;
+
+}
+
+
+.tab{
+
+  margin: 3px;
+  color: grey;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  background: transparent;
+  padding: 10px 15px;
+  opacity: 0.7;
+
+}
+
+.tab:hover {
+
+  cursor: pointer;
+  border: none;
+  opacity: 1;
+
+}
+
+.tabs{
+    text-align: center;
+  margin: 40px;
+  padding: 10px;
+}
+
+.active{
+  color: #2ADFD4;
+  border: none;
+  border-style: none;
+  opacity: 1;
+  border-bottom: 5px solid #2ADFD4;
+}
+
+.active:hover{
+  border-bottom: 5px solid #2ADFD4;
+}
 
 .spinner{
   color: red;
@@ -162,6 +211,21 @@ padding: 10px;
   -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease;
   animation: load6 1.7s infinite ease, round 1.7s infinite ease;
 }
+
+.Nav{
+  float:left;
+  text-decoration: none;
+  color: #2ADFD4;
+  font-weight: 700;
+  opacity: 0.5;
+}
+
+.Nav:hover{
+opacity: 1;
+}
+
+
+
 @-webkit-keyframes load6 {
   0% {
     box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
