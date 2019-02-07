@@ -8,8 +8,9 @@ import Modal from '../components/UI/Modal'
 import Character from './Charac';
 import Planet from './Planet'
 import Starship from './Starship'
-import Chart from 'chart.js';
 import pic from '../james-pond-80872-unsplash.jpg'
+import Chart from './Chart.js';
+
 
 
 class FullFilm extends Component {
@@ -30,7 +31,6 @@ class FullFilm extends Component {
    }
 
    componentDidMount () {
-
       axios.get('https://swapi.co/api/films/' + this.props.match.params.episode_id, {
         headers: { 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept' ,
         "Access-Control-Allow-Origin": "*",
@@ -43,7 +43,6 @@ class FullFilm extends Component {
                this.getPlanets();
                this.getStarships();
               console.log(response)
-
           });
      }
 
@@ -61,7 +60,6 @@ class FullFilm extends Component {
         this.setState({ notif_seen: true})
       }
      }
-
 
 
      getCharacters = () => {
@@ -130,6 +128,26 @@ class FullFilm extends Component {
         />
       })
 
+
+      let females = [];
+      let males = [];
+      let others = [];
+      characs.map((c) =>{
+          if (c.props.gender === 'female') {
+            females.push(c)
+          } else if (c.props.gender === 'male') {
+            males.push(c)
+          } else {
+            others.push(c)
+          }
+      })
+
+
+      let femalePerc = (".").repeat(females.length / characs.length * 100)
+      let malePerc =(".").repeat(males.length / characs.length * 100)
+      let otherPerc = (".").repeat(others.length / characs.length * 100)
+
+
       let planets = this.state.planets.map((p) =>{
         return <Planet
         terrain = {p.terrain}
@@ -164,13 +182,12 @@ class FullFilm extends Component {
         <div className="icones">
           <div onClick={this.handleLike}> {liked} </div>
           <div onClick={this.handleSeen}> {seen} </div>
-        </div>
+          </div>
             <p> Directed by :  <strong>{this.state.film.director}</strong> </p>
             <p> Produced by :  <strong> {this.state.film.producer}</strong> </p>
             <p> Episode number: <strong>{this.state.film.episode_id} </strong> </p>
             <p> Realease on the :<strong> {this.state.film.release_date} </strong></p>
-
-    </div>
+          </div>
       }
 
         let toDisplay = characs
@@ -198,17 +215,28 @@ class FullFilm extends Component {
         </div>
      }
 
-
-
-
-
  return(
  <div>
-  <Link to= {"/films/"} className= "Nav"> <MDBIcon icon="arrow-left"/> ALL FILMS</Link>
+   <Link to= {"/films/"} className= "Nav"> <MDBIcon icon="arrow-left"/> ALL FILMS</Link>
    <div className="FullFilm">
       <img  src={pic} className="banner" alt="fireSpot"/>
-    {film}
-    </div>
+      {film}
+     </div>
+
+      <div className="gender-ratio">
+      <h3> Gender Ratio </h3>
+        <div className="labels">
+          <p> <MDBIcon className= "y1" icon="circle"/> Females ({(females.length / characs.length * 100).toFixed(2)} %) </p>
+          <p> <MDBIcon className= "y2" icon="circle"/>  Males ({(males.length / characs.length * 100).toFixed(2)} %) </p>
+          <p> <MDBIcon className= "y3" icon="circle"/> Others ({(others.length / characs.length * 100).toFixed(2)} %) </p>
+        </div>
+        <div className="jauge">
+          <span className="Y1"> {femalePerc} </span>
+          <span className="Y2">{malePerc }</span>
+          <span className="Y3">{otherPerc }</span>
+        </div>
+      </div>
+
 
     {tabs}
 
@@ -232,12 +260,8 @@ class FullFilm extends Component {
 
     </div>
   )
-
 }
-
 }
-
-
 
 
 export default withRouter(FullFilm);

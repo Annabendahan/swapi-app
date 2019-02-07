@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { MDBIcon } from "mdbreact";
 import {BrowserRouter as  Router, Link, Route, Redirect} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import Film from './Film'
@@ -18,21 +19,22 @@ class FilmsList extends Component {
 
      }}
 
- componentDidMount() {
-      axios.get('https://swapi.co/api/films')
-          .then(response => {
-              this.setState({filmsList: response.data.results, listLoaded: true})
-          });
-     }
+     componentDidMount() {
+          axios.get('https://swapi.co/api/films')
+              .then(response => {
+                  this.setState({filmsList: response.data.results, listLoaded: true})
+              });
+         }
 
       filmSelector(id) {
           this.setState({ selectedFilmId: id});
           console.log(this.state.selectedFilmId)
        }
 
- handleInput = (e) => {
-  this.setState({[e.target.name]: e.target.value})
-}
+       handleInput = (e) => {
+        this.setState({[e.target.name]: e.target.value})
+      }
+
 
 render () {
 
@@ -81,10 +83,9 @@ if (this.state.listLoaded === true) {
 
   return(
     <div>
-    <img  src={pic} className="banner" alt="fireSpot"/>
         <div className="movies">
           <h1> All Star-Wars movies </h1>
-          <input className="search" name="search" type='text' placeholder= 'Title, Director name...'
+          <MDBIcon icon="search" className="search-i"/> <input className="search" name="search" type='text' placeholder= 'Title, Director name...'
             onChange={this.handleInput} value={this.state.search} />
           {FilmsList}
         </div>

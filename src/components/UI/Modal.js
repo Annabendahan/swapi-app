@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import Backdrop from './Backdrop'
 
-
 class Modal extends Component{
-
-
 
   render () {
     return (
